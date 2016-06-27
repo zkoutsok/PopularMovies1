@@ -2,11 +2,11 @@ apply plugin: 'com.android.application'
 
 android {
     compileSdkVersion 23
-    buildToolsVersion "24.0.0"
+    buildToolsVersion "23.0.3"
 
     defaultConfig {
         applicationId "com.example.androidzk.projectoneudacity"
-        minSdkVersion 23
+        minSdkVersion 20
         targetSdkVersion 23
         versionCode 1
         versionName "1.0"
@@ -16,6 +16,15 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
+        debug {
+            debuggable true
+        }
+
+    }
+    buildTypes.each {
+        it.buildConfigField 'String', 'MOVIESDB_API_KEY', moviesdb_key
+        it.buildConfigField 'String', 'MOVIESDB_BASE_ADDRESS', moviesdb_address
+        it.buildConfigField 'String', 'MOVIESDB_IMG_BASE_ADDRESS', moviesdb_img_address
     }
     repositories {
         mavenCentral()
