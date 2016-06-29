@@ -11,14 +11,12 @@ import java.util.Date;
  * Created by androidZK on 6/27/2016.
  */
 public class Movie extends BaseMovieInfo {
-    private String movieTitle;
     private String movieSynopsis;
     private int movieRating;
     private Date movieReleaseDate;
 
     Movie(Parcel in) {
         super(in);
-        this.movieTitle = in.readString();
         this.movieSynopsis = in.readString();
         this.movieRating = in.readInt();
         this.movieReleaseDate = new Date(in.readLong());
@@ -26,7 +24,6 @@ public class Movie extends BaseMovieInfo {
 
     public void writeToParcel(Parcel dest, int flags) {
         super.writeToParcel(dest,flags);
-        dest.writeString(movieTitle);
         dest.writeString(movieSynopsis);
         dest.writeInt(movieRating);
         dest.writeLong(movieReleaseDate.getTime());
@@ -56,10 +53,6 @@ public class Movie extends BaseMovieInfo {
         return movieRating;
     }
 
-    public String getMovieTitle() {
-        return movieTitle;
-    }
-
     public String getMovieSynopsis() {
         return movieSynopsis;
     }
@@ -75,10 +68,5 @@ public class Movie extends BaseMovieInfo {
     public void setMovieReleaseDate(Date movieReleaseDate) {
         this.movieReleaseDate = movieReleaseDate;
     }
-
-    public void setMovieTitle(String movieTitle) {
-        this.movieTitle = movieTitle;
-    }
-
 
 }

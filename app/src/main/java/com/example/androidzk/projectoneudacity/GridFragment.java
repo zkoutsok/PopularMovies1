@@ -1,6 +1,7 @@
 package com.example.androidzk.projectoneudacity;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -12,8 +13,11 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.GridView;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
 
@@ -29,12 +33,16 @@ import java.net.URI;
 import java.net.URL;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 public class GridFragment extends Fragment {
 
     private enum moviesFilter {
         POPULAR,
-        TOP_RATED
+        TOP_RATED,
+        SINGLE
     }
 
     private final String LOGCAT_JSON_FETCH = "JSON FETCH";
@@ -44,25 +52,36 @@ public class GridFragment extends Fragment {
     private final String MOVIE_FILTER_POPULAR = "popular";
     private final String MOVIE_FILTER_TOP_RATED = "top_rated";
 
+    private ArrayList<BaseMovieInfo> movieInfo;
+    MovieInfoAdapter movieInfoAdapter;
+
     public GridFragment() {
         // Required empty public constructor
     }
 
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-    }
+    public void onCreate(Bundle savedInstanceState) {super.onCreate(savedInstanceState);}
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
+        View view= inflater.inflate(R.layout.fragment_grid, container, false);
+        GridView gridView = (GridView) view.findViewById(R.id.movie_grid);
+        movieInfoAdapter = new MovieInfoAdapter(getActivity(), new ArrayList<BaseMovieInfo>());
+        gridView.setAdapter(movieInfoAdapter);
+        gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Toast.makeText(getContext(),((ImageView)view).getTag().toString(),Toast.LENGTH_SHORT).show();
+                //Intent intent = new Intent(getContext(), DetailActivity.class);
+                //intent.putExtra()
+                //Edo start to allo activity, to opoio sto onCreateView tha fernei dedomena
+                //me vasi auto to title.
+            }
+        });
         FetchMoviesTask task = new FetchMoviesTask();
         task.execute(moviesFilter.POPULAR);
-        View view= inflater.inflate(R.layout.fragment_grid, container, false);
-        ImageView viewButton = (ImageView)view.findViewById(R.id.image_id);
-        Picasso.with(getContext()).load("http://image.tmdb.org/t/p/w185//nBNZadXqJSdt05SHLqgT0HuC5Gm.jpg").into(viewButton);
         return view;
     }
 
@@ -141,7 +160,12 @@ public class GridFragment extends Fragment {
             return new URL(uriBuilder.build().toString());
         }
 
-        private URL fetchMoviesDBAddress(moviesFilter ... params) throws MalformedURLException{
+        private URL fetchMoviesDBAddress(moviesFilter ...params) throws MalformedURLException {
+            return fetchMoviesDBAddress(0,params);
+        }
+
+
+        private URL fetchMoviesDBAddress(long id, moviesFilter ... params) throws MalformedURLException{
 
             if (params == null) return null;
             String movieFilter;
@@ -152,6 +176,8 @@ public class GridFragment extends Fragment {
                 case POPULAR:
                     movieFilter = MOVIE_FILTER_POPULAR;
                     break;
+                case SINGLE:
+                    movieFilter = String.valueOf(id);
                 default:
                     Log.e(LOGCAT_URI, "Movie filter not available");
                     throw new MalformedURLException();
@@ -176,32 +202,31 @@ public class GridFragment extends Fragment {
 
             final String JSON_RESULTS = "results";
             final String JSON_POSTER = "poster_path";
+            final String JSON_ID = "id";
 
             JSONObject initObject = new JSONObject(movieJsonString);
             JSONArray resultArray = initObject.getJSONArray(JSON_RESULTS);
 
-            JSONObject resultOne = resultArray.getJSONObject(0);
-            // JSONObject posterOne = resultOne.getJSONObject(JSON_POSTER);
+            movieInfo = new ArrayList<BaseMovieInfo>();
 
-            String posterPath = resultOne.getString(JSON_POSTER);
+            for (int i = 0; i < resultArray.length(); i++) {
+                JSONObject resultOne = resultArray.getJSONObject(i);
 
-            final URL imageUrl = fetchMoviesDBImgAddress(posterPath);
-            ImageView viewImg = (ImageView) getView().findViewById(R.id.image_id);
-            BaseMovieInfo movieInfo = new BaseMovieInfo(viewImg);
-            BaseMovieInfo [] movieInfoArray = new BaseMovieInfo[2];
-            movieInfoArray[0] = movieInfo;
-            Picasso.with(getContext()).load("http://image.tmdb.org/t/p/w185//zSouWWrySXshPCT4t3UKCQGayyo.jpg").into(viewImg);
-            return movieInfoArray;
+                String posterPath = resultOne.getString(JSON_POSTER);
+                URL imageUrl = fetchMoviesDBImgAddress(posterPath);
+
+                long id = resultOne.getLong(JSON_ID);
+                movieInfo.add(new BaseMovieInfo(imageUrl.toString(), id));
+            }
+            return movieInfo.toArray(new BaseMovieInfo[movieInfo.size()]);
         }
-
 
         @Override
         protected void onPostExecute(BaseMovieInfo[] movies) {
             super.onPostExecute(movies);
-            ImageView viewImg = (ImageView)getView().findViewById(R.id.image_id);
-           //Picasso.with(getContext()).load("http://image.tmdb.org/t/p/w185//zSouWWrySXshPCT4t3UKCQGayyo.jpg").into(viewImg);
+            movieInfoAdapter.clear();
+            movieInfoAdapter.addAll(new ArrayList<BaseMovieInfo>(Arrays.asList(movies)));
         }
-
 
         @Override
         protected BaseMovieInfo[] doInBackground(moviesFilter ... params) {
@@ -227,10 +252,6 @@ public class GridFragment extends Fragment {
                 e.printStackTrace();
                 return null;
             }
-
-
-
-           // return new Movie[0];
         }
     }
 }

@@ -9,23 +9,28 @@ import android.widget.ImageView;
  * Created by androidZK on 6/27/2016.
  */
 public class BaseMovieInfo implements Parcelable{
-    private ImageView moviePoster;
-    private Bitmap.Config bitMapConfig = Bitmap.Config.ARGB_4444;
+    private String completePosterPath;
+    private long movieID;
+    //private Bitmap.Config bitMapConfig = Bitmap.Config.ARGB_4444;
 
-    BaseMovieInfo(ImageView imgView) {
-        this.moviePoster= imgView;
+    BaseMovieInfo(String posterPath, long movieID) {
+        this.completePosterPath= posterPath;
+        this.movieID = movieID;
     }
 
     BaseMovieInfo(Parcel in){
-        Bitmap imgBitmap = in.readParcelable(Bitmap.class.getClassLoader());
-        this.moviePoster.setImageBitmap(imgBitmap);
+       // Bitmap imgBitmap = in.readParcelable(Bitmap.class.getClassLoader());
+       // this.posterPath.setImageBitmap(imgBitmap);
+        this.completePosterPath = in.readString();
+        this.movieID = in.readLong();
     }
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        Bitmap imgBitmap = Bitmap.createBitmap(
-                moviePoster.getWidth(),moviePoster.getHeight(), bitMapConfig);
-        dest.writeValue(imgBitmap);
+       // Bitmap imgBitmap = Bitmap.createBitmap(
+           //     moviePoster.getWidth(),moviePoster.getHeight(), bitMapConfig);
+        dest.writeString(completePosterPath);
+        dest.writeLong(movieID);
     }
 
     public int describeContents() {
@@ -44,11 +49,8 @@ public class BaseMovieInfo implements Parcelable{
         }
     };
 
-    public ImageView getMoviePoster() {
-        return this.moviePoster;
+    public String getMoviePosterAddress() {
+        return this.completePosterPath;
     }
-
-    public void setMoviePoster(ImageView moviePoster) {
-        this.moviePoster = moviePoster;
-    }
+    public long getMovieTitle() {return this.movieID;}
 }
