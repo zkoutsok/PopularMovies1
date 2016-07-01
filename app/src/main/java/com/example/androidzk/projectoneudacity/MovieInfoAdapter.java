@@ -1,8 +1,6 @@
 package com.example.androidzk.projectoneudacity;
 
 import android.app.Activity;
-import android.app.Application;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,15 +14,15 @@ import java.util.List;
 /**
  * Created by androidZK on 6/27/2016.
  */
-public class MovieInfoAdapter extends ArrayAdapter<BaseMovieInfo> {
+public class MovieInfoAdapter extends ArrayAdapter<BasicMovieInfo> {
 
-    public MovieInfoAdapter(Activity context, List<BaseMovieInfo> baseMovieInfos) {
+    public MovieInfoAdapter(Activity context, List<BasicMovieInfo> baseMovieInfos) {
         super(context, 0, baseMovieInfos);
     }
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        BaseMovieInfo movieInfo = getItem(position);
+        BasicMovieInfo movieInfo = getItem(position);
 
         // Adapters recycle views to AdapterViews.
         // If this is a new View object we're getting, then inflate the layout.
@@ -37,7 +35,7 @@ public class MovieInfoAdapter extends ArrayAdapter<BaseMovieInfo> {
 
         ImageView iconView = (ImageView) convertView.findViewById(R.id.movie_image);
         Picasso.with(getContext()).load(movieInfo.getMoviePosterAddress()).into(iconView);
-        iconView.setTag(movieInfo.getMovieTitle());
+        iconView.setTag(movieInfo.getMovieID());
         return convertView;
     }
 }

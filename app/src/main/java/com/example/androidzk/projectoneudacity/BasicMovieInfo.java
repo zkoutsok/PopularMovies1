@@ -50,5 +50,5 @@ public class BasicMovieInfo implements Parcelable{
     public String getMoviePosterAddress() {
         return this.completePosterPath;
     }
-    public long getMovieTitle() {return this.movieID;}
+    public long getMovieID() {return this.movieID;}
 }
