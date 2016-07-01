@@ -1,24 +1,22 @@
 package com.example.androidzk.projectoneudacity;
 
-import android.graphics.Bitmap;
 import android.os.Parcel;
 import android.os.Parcelable;
-import android.widget.ImageView;
 
 /**
  * Created by androidZK on 6/27/2016.
  */
-public class BaseMovieInfo implements Parcelable{
+public class BasicMovieInfo implements Parcelable{
     private String completePosterPath;
     private long movieID;
     //private Bitmap.Config bitMapConfig = Bitmap.Config.ARGB_4444;
 
-    BaseMovieInfo(String posterPath, long movieID) {
+    BasicMovieInfo(String posterPath, long movieID) {
         this.completePosterPath= posterPath;
         this.movieID = movieID;
     }
 
-    BaseMovieInfo(Parcel in){
+    BasicMovieInfo(Parcel in){
        // Bitmap imgBitmap = in.readParcelable(Bitmap.class.getClassLoader());
        // this.posterPath.setImageBitmap(imgBitmap);
         this.completePosterPath = in.readString();
@@ -37,15 +35,15 @@ public class BaseMovieInfo implements Parcelable{
         return 0;
     }
 
-    static final Parcelable.Creator<BaseMovieInfo> CREATOR
-            = new Parcelable.Creator<BaseMovieInfo>() {
+    static final Parcelable.Creator<BasicMovieInfo> CREATOR
+            = new Parcelable.Creator<BasicMovieInfo>() {
 
-        public BaseMovieInfo createFromParcel(Parcel in) {
-            return new BaseMovieInfo(in);
+        public BasicMovieInfo createFromParcel(Parcel in) {
+            return new BasicMovieInfo(in);
         }
 
-        public BaseMovieInfo[] newArray(int size) {
-            return new BaseMovieInfo[size];
+        public BasicMovieInfo[] newArray(int size) {
+            return new BasicMovieInfo[size];
         }
     };
 
