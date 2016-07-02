@@ -5,6 +5,9 @@ import android.os.Parcelable;
 
 /**
  * Created by androidZK on 6/27/2016.
+ *
+ * Objects of this class contain the full details regarding a movie, that we want
+ * to display in the detail activity.
  */
 public class DetailMovieInfo extends BasicMovieInfo {
     private String movieSynopsis;

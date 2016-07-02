@@ -18,6 +18,10 @@ public class GridFragment extends Fragment {
 
     MovieInfoAdapter movieInfoAdapter;
 
+    /** The following parameter is used as key in order for this fragment
+     * to obtain the movies sort filter applied by settings.
+     * This filter is forwarded from main activity.
+     */
     private static final String MOVIE_FILTER = "movieFilter";
     private MovieFactory.MoviesFilter filter;
 
@@ -78,6 +82,10 @@ public class GridFragment extends Fragment {
         super.onDetach();
     }
 
+    /** The following task is used to retrieve through network connectivity and JSON parsing
+     * the complete web addresses for the movie posters used in the gridView of
+     * the main activity.
+     */
     private class FetchMoviesTask extends AsyncTask<MovieFactory.MoviesFilter, Void, BasicMovieInfo[]> {
 
         @Override

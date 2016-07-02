@@ -6,6 +6,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.MenuItem;
 
+/**
+ * This activity class corresponds to a screen layout with full details
+ * regarding a movie.
+ */
 public class DetailActivity extends AppCompatActivity {
 
     @Override

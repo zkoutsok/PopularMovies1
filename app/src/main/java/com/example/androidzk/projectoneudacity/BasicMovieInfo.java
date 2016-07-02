@@ -4,7 +4,14 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 /**
- * Created by androidZK on 6/27/2016.
+ * Created by androidZK on 6/27T
+ *
+ * The following class is used to display the movie posters on the main screen.
+ *
+ * completePosterPath: is the complete web address for the poster.
+ * movieID: is the ID movie, as obtained by JSON. We need that in order to know
+ * which movie was selected on the gridView and start the detailed activity
+ * for that movie.
  */
 public class BasicMovieInfo implements Parcelable{
     private String completePosterPath;

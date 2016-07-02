@@ -12,6 +12,11 @@ public class MainActivity extends AppCompatActivity {
 
     private MovieFactory.MoviesFilter filter;
 
+    /** We need to refresh the movies sort filter
+     * every time the activity starts. In that way
+     * we ensure that by pressing either the Up or Back button will
+     * have the correct set of movie posters displayed.
+     */
     private void refreshFilter() {
         Resources res = getResources();
         String stringFilter = PreferenceManager.

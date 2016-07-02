@@ -14,7 +14,15 @@ import com.squareup.picasso.Picasso;
 
 
 public class DetailFragment extends Fragment {
+
+    /** The following string acts a key argument with which
+     * an object of this fragment can obtain the movieID forwarded
+     * by the detail activity.
+     */
+
     public static final String MOVIE_ID = "MOVIE_ID";
+
+    //Used as a postfix to the rating of a movie.
     private static final String ratingPostfix = "/10";
     private long movieID;
 
@@ -59,6 +67,10 @@ public class DetailFragment extends Fragment {
         super.onDetach();
     }
 
+    /** The following class is used in order to initiate the connection with moviesDB,
+     * parse the corresponding JSON String and populate a movie with full details like
+     * title, synopsis, rating, etc.
+     */
     private class FetchDetailMovieTask extends AsyncTask<Long, Void, DetailMovieInfo> {
 
         @Override

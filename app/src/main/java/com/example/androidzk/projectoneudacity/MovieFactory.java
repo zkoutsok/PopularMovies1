@@ -18,6 +18,12 @@ import java.util.ArrayList;
 
 /**
  * Created by androidZK on 6/29/2016.
+ *
+ * This class is used in order for the different fragments to obtain different movie Objects
+ * based on the sorting filter that they will apply.
+ *
+ * All networking, JSON parsing for the different objects are applied within this class.
+ *
  */
 public class MovieFactory{
 
