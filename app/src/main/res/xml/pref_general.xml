@@ -1,9 +1,9 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
     <ListPreference
-        android:title="SortBy"
-        android:key="preference_key"
-        android:summary="Let the user sort by Popular or Top rated movies."
+        android:title="@string/settings_movies_sort"
+        android:key="@string/preference_key"
+        android:summary="@string/settings_summary"
         android:entries="@array/filter_entries"
         android:entryValues="@array/filter_default_values"
         />

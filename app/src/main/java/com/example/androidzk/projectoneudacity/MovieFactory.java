@@ -1,8 +1,6 @@
 package com.example.androidzk.projectoneudacity;
 
 import android.net.Uri;
-import android.os.Parcel;
-import android.os.Parcelable;
 import android.util.Log;
 
 import org.json.JSONArray;
@@ -36,6 +34,8 @@ public class MovieFactory{
         public int getValue() {return value;}
 
     }
+
+    public static ArrayList<BasicMovieInfo> movies;
 
     private static final String JSON_RESULTS = "results";
     private static final String JSON_POSTER = "poster_path";
@@ -199,14 +199,15 @@ public class MovieFactory{
             movieJsonString = getMovieJSONString(url);
             return parseDetailJSONString(movieJsonString);
         } catch (MalformedURLException e) {
-            Log.e(LOGCAT_URI, "Error parsing the url address", e);
-            e.printStackTrace();            return null;
+            Log.e(LOGCAT_URI, "Error parsing the url movie address", e);
+            e.printStackTrace();
+            return null;
         } catch (IOException e) {
-            Log.e(LOGCAT_JSON_FETCH, "Error fetching the JSON string", e);
+            Log.e(LOGCAT_JSON_FETCH, "Error fetching the JSON movie string", e);
             e.printStackTrace();
             return null;
         } catch (JSONException e) {
-            Log.e(LOGCAT_JSON_PARSE, "Error parsing the JSON string", e);
+            Log.e(LOGCAT_JSON_PARSE, "Error parsing the JSON movie string", e);
             e.printStackTrace();
             return null;
         }
@@ -221,15 +222,15 @@ public class MovieFactory{
             moviesJsonString = getMovieJSONString(url);
             return parseJSONString(moviesJsonString);
         } catch (MalformedURLException e) {
-            Log.e(LOGCAT_URI, "Error parsing the url address", e);
+            Log.e(LOGCAT_URI, "Error parsing the group movies url address", e);
             e.printStackTrace();
             return null;
         } catch (IOException e) {
-            Log.e(LOGCAT_JSON_FETCH, "Error fetching the JSON string", e);
+            Log.e(LOGCAT_JSON_FETCH, "Error fetching the group movies JSON string", e);
             e.printStackTrace();
             return null;
         } catch (JSONException e) {
-            Log.e(LOGCAT_JSON_PARSE, "Error parsing the JSON string", e);
+            Log.e(LOGCAT_JSON_PARSE, "Error parsing the group movies JSON string", e);
             e.printStackTrace();
             return null;
         }

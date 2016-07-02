@@ -5,33 +5,52 @@ import android.content.res.Resources;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
 public class MainActivity extends AppCompatActivity {
 
+    private MovieFactory.MoviesFilter filter;
+
+    private void refreshFilter() {
+        Resources res = getResources();
+        String stringFilter = PreferenceManager.
+                getDefaultSharedPreferences(getApplicationContext()).
+                getString(res.getString(R.string.preference_key),
+                        res.getString(R.string.default_filter));
+        String arrVal[] = res.getStringArray(R.array.filter_default_values);
+        for (int i = 0; i < arrVal.length; i++) {
+            if (stringFilter.equals(arrVal[i])) {
+                this.filter = MovieFactory.MoviesFilter.valueOf(arrVal[i]);
+                break;
+            }
+        }
+    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        String stringFilter = PreferenceManager.
-                getDefaultSharedPreferences(getApplicationContext()).
-                getString("preference_key", "POPULAR");
-        MovieFactory.MoviesFilter filter = null;
-        Resources res = getResources();
-        String arrVal[] = res.getStringArray(R.array.filter_default_values);
-        for (int i = 0; i < arrVal.length; i++) {
-            if (stringFilter.equals(arrVal[i])) {
-                filter = MovieFactory.MoviesFilter.valueOf(arrVal[i]);
-                break;
-            }
-        }
-        if (savedInstanceState == null) {
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        refreshFilter();
+        if (getSupportFragmentManager().getFragments() == null){
             getSupportFragmentManager().beginTransaction()
                     .add(R.id.container, GridFragment.newInstance(filter))
                     .commit();
+        } else {
+            getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.container, GridFragment.newInstance(filter))
+                    .commit();
         }
+
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
     }
 
     @Override
@@ -51,10 +70,5 @@ public class MainActivity extends AppCompatActivity {
             return true;
         }
         return super.onOptionsItemSelected(item);
-    }
-
-    @Override
-    protected void onResume(){
-        super.onResume();
     }
 }

@@ -2,18 +2,15 @@ package com.example.androidzk.projectoneudacity;
 
 import android.content.Context;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.ImageView;
-import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -44,7 +41,6 @@ public class GridFragment extends Fragment {
            filter  = MovieFactory.MoviesFilter.fromOrdinal(
                    getArguments().getInt(MOVIE_FILTER));
         }
-        Log.v("LEOLEO", filter.toString());
     }
 
     @Override
@@ -62,16 +58,14 @@ public class GridFragment extends Fragment {
                 startActivity(intent);
             }
         });
-        //FetchMoviesTask task = new FetchMoviesTask();
-       // task.execute(this.filter);
+        FetchMoviesTask task = new FetchMoviesTask();
+        task.execute(this.filter);
         return view;
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        FetchMoviesTask task = new FetchMoviesTask();
-        task.execute(this.filter);
     }
 
     @Override

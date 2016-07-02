@@ -9,7 +9,6 @@ import android.os.Parcelable;
 public class BasicMovieInfo implements Parcelable{
     private String completePosterPath;
     private long movieID;
-    //private Bitmap.Config bitMapConfig = Bitmap.Config.ARGB_4444;
 
     BasicMovieInfo(String posterPath, long movieID) {
         this.completePosterPath= posterPath;
@@ -17,16 +16,12 @@ public class BasicMovieInfo implements Parcelable{
     }
 
     BasicMovieInfo(Parcel in){
-       // Bitmap imgBitmap = in.readParcelable(Bitmap.class.getClassLoader());
-       // this.posterPath.setImageBitmap(imgBitmap);
         this.completePosterPath = in.readString();
         this.movieID = in.readLong();
     }
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-       // Bitmap imgBitmap = Bitmap.createBitmap(
-           //     moviePoster.getWidth(),moviePoster.getHeight(), bitMapConfig);
         dest.writeString(completePosterPath);
         dest.writeLong(movieID);
     }
